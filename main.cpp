@@ -1,7 +1,8 @@
 #include "helper/functions.h"
+#include "classes/manager.h"
 
-int capital;
-int year;
+    
+
 
 void story(std::string name){
     type_chars("CONGRATULATIONS " + name); sleep(1);
@@ -15,22 +16,21 @@ void story(std::string name){
 }
 
 void gameplay(std::string name){
-    std::vector<string>
-
     clear_terminal();
+    
     type_chars("BEGINNING SIMULATION", std::chrono::milliseconds(100), true);
-    type_chars("Name: " + name);
-    type_chars("Year: " + std::to_string(year));
-    type_chars("Capital: " + std::to_string(capital) + '\n'); sleep(2);
+    
+    manager market = manager(name);
+    market.list_attributes(true); // list all relevent data
 
-
+    
 
     type_chars("Here is a list of stocks that are avaliable right now\n");
     
-    std::string stocks = "1. NVIDIA Corporation\n2.Rivian Automotive\n3.Flzer Inc.\n4.Telsa, Inc.\n5.Chegg\n6.OPEN AI\n7.Pinterest Inc.";
     
-    std::cout << 
+    market.print_stocks("all");
 
+    sleep(2);
 
 }
 // share price 
@@ -43,41 +43,41 @@ int main(){
     clear_terminal();
 
     std::string name;
-    char input;
+    // char input;
 
     std::cout << "Name: ";
     std::getline(std::cin, name);
 
 
-    clear_terminal();
+    // clear_terminal();
 
 
     
-    std::cout << "--------------------------------------------------\n";
-    std::cout << "              Financial Literacy\n";
-    std::cout << "--------------------------------------------------\n\n";
+    // std::cout << "--------------------------------------------------\n";
+    // std::cout << "              Financial Literacy\n";
+    // std::cout << "--------------------------------------------------\n\n";
 
 
-    std::string welcome = "Welcome " + name + ". The following is designed to help you understand the Stock market and become financially literate.\n"; 
-    type_chars(welcome); sleep(2);
+    // std::string welcome = "Welcome " + name + ". The following is designed to help you understand the Stock market and become financially literate.\n"; 
+    // type_chars(welcome); sleep(2);
 
 
-    while(true){
-        type_chars("Are you ready? [y/n]: "); std::cin >> input;
-        if(input == 'y' || input == 'Y' || input == 'N' || input == 'n'){ break; }
-    }
+    // while(true){
+    //     type_chars("Are you ready? [y/n]: "); std::cin >> input;
+    //     if(input == 'y' || input == 'Y' || input == 'N' || input == 'n'){ break; }
+    // }
 
 
-    if(input == 'Y' || input == 'y'){ type_chars("\n\nPerfect, let's get started."); sleep(2);}
-    else if (input == 'N' || input == 'n'){ type_chars("Oh, okay then, goodbye ");}
+    // if(input == 'Y' || input == 'y'){ type_chars("\n\nPerfect, let's get started."); sleep(2);}
+    // else if (input == 'N' || input == 'n'){ type_chars("Alright, stay broke kid");}
 
 
-    clear_terminal();
+    // clear_terminal();
 
 
     story(name);
 
-    // gameplay(name);
+    gameplay(name);
 
 
 

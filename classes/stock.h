@@ -6,13 +6,16 @@
 struct stock{
     std::string name;
     double share_price;
+    int stock_count;
 
-    stock();
-    stock(std::string name, double share_price);
+    // stock();
+    stock(std::string name);
     ~stock();
 
 
-    void graph();
+
+
+    // void graph();
 
 
 

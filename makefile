@@ -1,39 +1,37 @@
-# Compiler and flags
-CXX := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -Ihelper
+# ---- compiler & flags ----
+CXX      := g++
+CXXFLAGS := -std=c++17 -Wall -Wextra -Iclasses -Ihelper -MMD -MP
 
-# Directories
-SRC_DIR := .
-HELPER_DIR := helper
-OBJ_DIR := obj
+# ---- folders ----
+SRC_DIRS := . classes helper
+OBJ_DIR  := obj
+TARGET   := main
 
-# Files
-SOURCES := $(SRC_DIR)/main.cpp $(HELPER_DIR)/functions.cpp
-OBJECTS := $(OBJ_DIR)/main.o $(OBJ_DIR)/functions.o
-TARGET := main
+# ---- sources / objects / deps ----
+SRCS := $(foreach d,$(SRC_DIRS),$(wildcard $(d)/*.cpp))
+OBJS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+DEPS := $(OBJS:.o=.d)
 
-# Default rule
+# ---- default ----
 all: $(TARGET)
 
-# Linking
-$(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+# ---- link ----
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-# Object file rules
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+# ---- compile (auto-create obj subdirs) ----
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(HELPER_DIR)/%.cpp | $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+# ---- phony helpers ----
+.PHONY: clean run debug
 
-# Create obj directory if it doesn't exist
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+run: $(TARGET)
+	./$(TARGET)
 
-# Clean up
 clean:
 	rm -rf $(OBJ_DIR) $(TARGET)
 
-# Run the program
-run: all
-	./$(TARGET)
+# include auto-generated dependency files
+-include $(DEPS)
