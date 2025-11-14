@@ -1,37 +1,46 @@
-# ---- compiler & flags ----
+# ---- Compiler & Flags ----
 CXX      := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -Iclasses -Ihelper -MMD -MP
+CXXFLAGS := -std=c++17 -Wall -Wextra \
+            -Iclasses -Ideepseek -Ihelper \
+            -MMD -MP
 
-# ---- folders ----
-SRC_DIRS := . classes helper
+# ---- Directories ----
 OBJ_DIR  := obj
 TARGET   := main
 
-# ---- sources / objects / deps ----
-SRCS := $(foreach d,$(SRC_DIRS),$(wildcard $(d)/*.cpp))
-OBJS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SRCS))
-DEPS := $(OBJS:.o=.d)
+# ---- Source Files ----
+SOURCES := \
+    main.cpp \
+    classes/manager.cpp \
+    classes/stock.cpp \
+    deepseek/deepseek.cpp \
+    helper/functions.cpp
 
-# ---- default ----
+# ---- Object + Dependency Files ----
+OBJECTS := $(SOURCES:%.cpp=$(OBJ_DIR)/%.o)
+DEPS    := $(OBJECTS:.o=.d)
+
+# ---- Default ----
 all: $(TARGET)
 
-# ---- link ----
-$(TARGET): $(OBJS)
+# ---- Link Executable ----
+$(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-# ---- compile (auto-create obj subdirs) ----
+# ---- Compile Each .cpp Into obj/... ----
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# ---- phony helpers ----
-.PHONY: clean run debug
-
+# ---- Run Program ----
+.PHONY: run
 run: $(TARGET)
 	./$(TARGET)
 
+# ---- Clean ----
+.PHONY: clean
 clean:
 	rm -rf $(OBJ_DIR) $(TARGET)
 
-# include auto-generated dependency files
+# ---- Auto Header Dependencies ----
 -include $(DEPS)

@@ -22,11 +22,13 @@ int play_again(std::string category);
 
 void clear_terminal();
 
-char getch();
+// char getch();
 
-void make_stdio_blocking();
+// void make_stdio_blocking();
 
 std::string setColor(std::string color);
+
+void image(std::string file_name);
 
 
 #endif

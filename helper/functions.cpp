@@ -1,4 +1,5 @@
 #include "functions.h"
+#include <csignal>
 
 
 
@@ -7,9 +8,9 @@ void type_chars(const std::string& text, std::chrono::milliseconds per_char, boo
     for (char c : text) {
         std::cout << c << std::flush;
         using namespace std::chrono_literals;
-        if (c == ' ' || c == '\n') std::this_thread::sleep_for(per_char / 3);
-        else if (c == '.' || c == '!' || c == '?' || c == ',') std::this_thread::sleep_for(per_char * 6);
-        else std::this_thread::sleep_for(per_char);
+        if (c == ' ' || c == '\n') std::this_thread::sleep_for(per_char);
+        else if (c == '.' || c == '!' || c == '?' || c == ',') std::this_thread::sleep_for(per_char * 7);
+        else std::this_thread::sleep_for(per_char-std::chrono::milliseconds(5));
     }
     if (newline_at_end) std::cout << '\n';
 }
@@ -56,47 +57,6 @@ void clear_terminal(){
 
 
 
-char getch() {
-    static bool inited = false;
-    static struct termios saved;     // original settings
-    struct termios raw;
-
-    if (!inited) {
-        if (tcgetattr(STDIN_FILENO, &saved) < 0) perror("tcgetattr(saved)");
-        inited = true;
-    }
-
-    // Ensure blocking reads on STDIN
-    int fl = fcntl(STDIN_FILENO, F_GETFL);
-    if (fl != -1 && (fl & O_NONBLOCK)) fcntl(STDIN_FILENO, F_SETFL, fl & ~O_NONBLOCK);
-
-    raw = saved;
-    raw.c_lflag &= ~(ICANON | ECHO);
-    raw.c_cc[VMIN]  = 1;
-    raw.c_cc[VTIME] = 0;
-    if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0) perror("tcsetattr(raw)");
-
-    char ch;
-    for (;;) {
-        ssize_t n = read(STDIN_FILENO, &ch, 1);
-        if (n == 1) break;
-        if (n < 0 && (errno == EINTR || errno == EAGAIN)) continue;
-        perror("read"); break;
-    }
-
-    // Restore original terminal settings
-    if (tcsetattr(STDIN_FILENO, TCSADRAIN, &saved) < 0) perror("tcsetattr(saved)");
-    return ch;
-}
-
-void make_stdio_blocking() {
-    for (int fd = 0; fd <= 2; ++fd) {
-        int fl = fcntl(fd, F_GETFL);
-        if (fl != -1 && (fl & O_NONBLOCK)) fcntl(fd, F_SETFL, fl & ~O_NONBLOCK);
-    }
-}
-
-
 std::string setColor(std::string color) {
     if (color == "red") {
         return "\033[31m";
@@ -115,4 +75,35 @@ std::string setColor(std::string color) {
     }
     // Default to white if no valid color is chosen
     return "\033[37m";
+}
+
+
+void image(std::string file_name){
+
+    pid_t pid = fork();
+
+
+   if (pid < 0) {
+        perror("fork");
+        return;
+    }
+
+    if (pid == 0) {
+        // CHILD: silence output
+        int devnull = open("/dev/null", O_WRONLY);
+        if (devnull != -1) {
+            dup2(devnull, STDOUT_FILENO);  // redirect stdout
+            dup2(devnull, STDERR_FILENO);  // redirect stderr
+            close(devnull);
+        }
+
+        // Now run eog
+        std::string path = "helper/images/" + file_name;
+        execlp("eog", "eog", path.c_str(), (char*)NULL);
+        _exit(1); // only reached if execlp fails
+    } else {
+        // PARENT
+        sleep(2);
+        kill(pid, SIGTERM);
+    }
 }

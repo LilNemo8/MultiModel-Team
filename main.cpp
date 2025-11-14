@@ -1,14 +1,44 @@
 #include "helper/functions.h"
 #include "classes/manager.h"
+#include "deepseek/deepseek.h"
 
     
+void intro(std::string& name){
+    clear_terminal();
+    char input;
 
+    std::cout << "Name: ";
+    std::getline(std::cin, name);
+
+
+    
+    std::cout << "--------------------------------------------------\n";
+    std::cout << "              Financial Literacy\n";
+    std::cout << "--------------------------------------------------\n\n";
+
+
+    type_chars("Welcome " + name + ".\nThe following is designed to help you understand the Stock market and become financially literate.\n"); sleep(2);
+
+
+    while(true){
+        type_chars("Are you ready? [y/n]: "); std::cin >> input;
+        if(input == 'y' || input == 'Y' || input == 'N' || input == 'n'){ break; }
+    }
+
+
+    if(input == 'Y' || input == 'y'){ type_chars("\n\nPerfect, let's get started."); sleep(2);}
+    else if (input == 'N' || input == 'n'){ type_chars("Alright, stay broke kid");}
+
+
+    clear_terminal();
+
+}
 
 void story(std::string name){
     type_chars("CONGRATULATIONS " + name); sleep(1);
     type_chars("You've just graduated college with a bacherlors in the computer science, YUCK"); sleep(1);
     loading("You know what this means", 4);
-    std::cout << setColor("red"); type_chars("\nYOU AREN'T finding a job any time soon.\n"); std::cout << setColor("white");
+    std::cout << setColor("red"); type_chars("\nYOU AREN'T finding a job any time soon.\n"); std::cout << setColor("white"); image("cat.gif");
     type_chars("But you are smart, and since FASFA decided to give you more money than you needed, you decided Wall Street is your new home");
 
     sleep(4);
@@ -42,42 +72,22 @@ void gameplay(std::string name){
 int main(){
     clear_terminal();
 
+    // Get the name of the user for better user experience
     std::string name;
-    // char input;
+    std::cout << "Name: "; std::getline(std::cin, name);
+    clear_terminal();
 
-    std::cout << "Name: ";
-    std::getline(std::cin, name);
+    // deepseek();
 
-
-    // clear_terminal();
-
-
-    
-    // std::cout << "--------------------------------------------------\n";
-    // std::cout << "              Financial Literacy\n";
-    // std::cout << "--------------------------------------------------\n\n";
+    // // Explains what the purpose of this program is for
+    // intro(name); 
 
 
-    // std::string welcome = "Welcome " + name + ". The following is designed to help you understand the Stock market and become financially literate.\n"; 
-    // type_chars(welcome); sleep(2);
-
-
-    // while(true){
-    //     type_chars("Are you ready? [y/n]: "); std::cin >> input;
-    //     if(input == 'y' || input == 'Y' || input == 'N' || input == 'n'){ break; }
-    // }
-
-
-    // if(input == 'Y' || input == 'y'){ type_chars("\n\nPerfect, let's get started."); sleep(2);}
-    // else if (input == 'N' || input == 'n'){ type_chars("Alright, stay broke kid");}
-
-
-    // clear_terminal();
-
-
+    // // Gives the user a story and objective
     story(name);
 
-    gameplay(name);
+    // //actually gameplay of the program
+    // gameplay(name);
 
 
 
