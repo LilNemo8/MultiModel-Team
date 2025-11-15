@@ -35,8 +35,12 @@ void intro(std::string& name){
 }
 
 void story(std::string name){
+    type_chars("Year: 2014", std::chrono::milliseconds(60), true); sleep(3);
+    clear_terminal();
+
+
     type_chars("CONGRATULATIONS " + name); sleep(1);
-    type_chars("You've just graduated college with a bacherlors in the computer science, YUCK"); sleep(1);
+    type_chars("You've just graduated college with a Bacherlors in the Computer Science, YUCK"); sleep(1);
     loading("You know what this means", 4);
     std::cout << setColor("red"); type_chars("\nYOU AREN'T finding a job any time soon.\n"); std::cout << setColor("white"); image("cat.gif");
     type_chars("But you are smart, and since FASFA decided to give you more money than you needed, you decided Wall Street is your new home");
@@ -48,17 +52,23 @@ void story(std::string name){
 void gameplay(std::string name){
     clear_terminal();
     
-    type_chars("BEGINNING SIMULATION", std::chrono::milliseconds(100), true);
+    // type_chars("BEGINNING SIMULATION", std::chrono::milliseconds(100), true);
     
     manager market = manager(name);
-    market.list_attributes(true); // list all relevent data
+    // market.list_attributes(true); // list all relevent data
+
+    // The game play will run until the year becomes 2025
+    type_chars("Alright then, let us begin\n"); sleep(1);
+    while(market.getYear() != 2025){
+        market.game();
+    }
+    
 
     
+    
 
-    type_chars("Here is a list of stocks that are avaliable right now\n");
-    
-    
-    market.print_stocks("all");
+
+
 
     sleep(2);
 
@@ -84,10 +94,10 @@ int main(){
 
 
     // // Gives the user a story and objective
-    story(name);
+    // story(name);
 
     // //actually gameplay of the program
-    // gameplay(name);
+    gameplay(name);
 
 
 

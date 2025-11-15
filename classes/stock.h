@@ -20,15 +20,12 @@ struct stock{
     stock(std::string name, const std::vector<double>& returns);
 
     ~stock();
+    
+    void print(bool user, int year);
 
     // apply this stock's % return for a given calendar year (e.g. 2014)
-    void apply_return_for_year(int year){
-        int idx = year - BASE_YEAR;
-        if (idx < 0 || idx >= (int)yearly_returns.size()) return;
+    void apply_return_for_year(int year);
 
-        double r = yearly_returns[idx] / 100.0; // convert % to decimal
-        share_price *= (1.0 + r);
-    }
 };
 
 #endif

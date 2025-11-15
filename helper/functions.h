@@ -10,6 +10,9 @@
 #include <termios.h>  // terminal input
 #include <fcntl.h>
 #include <errno.h>
+#include <iomanip>
+#include <csignal>
+
 
 #include <string>
 #include <vector>
