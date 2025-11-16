@@ -138,13 +138,13 @@ int main(){
 
 
     // Explains what the purpose of this program is for
-    // intro(name); 
+    intro(name); 
 
     // Gives the user a story and objective
-    // story(name);
+    story(name);
 
     // instructions if the player wishes to see them
-    // intructions();
+    intructions();
 
     //actually gameplay of the program
     gameplay(name);
