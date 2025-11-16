@@ -36,8 +36,6 @@ void story(const std::string& name){
     std::cout << setColor("red"); type_chars("\nYOU AREN'T finding a job any time soon.\n"); std::cout << setColor("white"); image("cat_laughing.jpg", 2);
     type_chars("But you are smart, and since FASFA decided to give you more money than you needed, you decided Wall Street is your new home");
 
-    wait_for_enter();
-
 }
 
 void intructions(){
