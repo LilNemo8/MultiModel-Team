@@ -134,14 +134,14 @@ int main(){
     std::cout << "Name: "; std::getline(std::cin, name);
 
 
-    // // Explains what the purpose of this program is for
-    // intro(name); 
+    // Explains what the purpose of this program is for
+    intro(name); 
 
-    // // Gives the user a story and objective
-    // story(name);
+    // Gives the user a story and objective
+    story(name);
 
-    // // instructions if the player wishes to see them
-    // intructions();
+    // instructions if the player wishes to see them
+    intructions();
 
     //actually gameplay of the program
     gameplay(name);
