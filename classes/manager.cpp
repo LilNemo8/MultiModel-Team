@@ -103,8 +103,8 @@ void manager::buy_stock(){
 
         // -------------------------------------------------------------------------------------------------------
         // Ask the User if they would like to buy another stock
-        std::cout << "Would you like to buy more stocks? [y/n] "; std::cin >> c;
-        if(c == 'n' || c == 'N'){ return; }
+        // std::cout << "Would you like to buy more stocks? [y/n] "; std::cin >> c;
+        // if(c == 'n' || c == 'N'){ return; }
         clear_terminal();
     }
 
@@ -474,11 +474,11 @@ void manager::list_attributes(bool display_extra){
     }
 
     std::cout << std::fixed << std::setprecision(2);
-    type_chars("Capital:        $",  std::chrono::milliseconds(30), false); std::cout << getCapitial() << '\n'; sleep(1);
-    type_chars("Stock Capital:  $",  std::chrono::milliseconds(30), false); std::cout <<getStockCapital() << '\n'; sleep(1);
-    type_chars("Objectives:     $",  std::chrono::milliseconds(30), false); std::cout << getObjective() << "\n\n";
+    type_chars("Capital:        $",  std::chrono::milliseconds(20), false); std::cout << getCapitial() << '\n'; sleep(1);
+    type_chars("Stock Capital:  $",  std::chrono::milliseconds(20), false); std::cout <<getStockCapital() << '\n'; sleep(1);
+    type_chars("Objectives:     $",  std::chrono::milliseconds(20), false); std::cout << getObjective() << "\n\n";
     
-    sleep(2);
+    sleep(1);
 }
 
 void manager::manager_stocks(){

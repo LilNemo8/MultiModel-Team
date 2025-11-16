@@ -117,13 +117,10 @@ void gameplay(const std::string& name){
     manager market = manager(name);
     market.list_attributes(true); // list all relevent data
 
-
-    
     // The game play will run until the year becomes 2025
     market.game();
 
-    type_chars("It is now 2025, Let's go and see your results\n");
-    wait_for_enter();
+    type_chars("It is now 2025, Let's go and see your results\n"); sleep(2);
 
     market.result();
 }
