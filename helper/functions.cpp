@@ -53,6 +53,7 @@ int play_again(std::string category){
 
 void clear_terminal(){
     std::cout << "\033[2J\033[1;1H"; 
+    std::cout << "\n";
 };
 
 

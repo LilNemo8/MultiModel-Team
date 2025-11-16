@@ -231,7 +231,7 @@ void manager::advance_year(bool& end_simulation){
         if(c == 'n' || c == 'N'){ return; }
         std::cout << '\n'; 
     }
-    int year_s;
+    long long int year_s;
     while(true){
         type_chars("How many years would you like to advance? (current " + std::to_string(year) + ")");
         std::cout << "Years: "; std::cin >> year_s;
