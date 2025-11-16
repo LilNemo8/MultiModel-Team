@@ -5,7 +5,7 @@ manager::manager(std::string name){
 
     this->name = name;
     capital = 10000.0;
-    objective = 50000.0;
+    objective = 30000.0;
     stock_capital = 0.0;
     year = 2014;
 } 
