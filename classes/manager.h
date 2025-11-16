@@ -110,6 +110,7 @@ class manager{
 
     // graphs out the user stocks
     void yearly_returns();
+    void yearly_returns_all();
 
     // List the attributes of the player
     void list_attributes(bool display_name);

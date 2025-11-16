@@ -122,6 +122,9 @@ void gameplay(const std::string& name){
     // The game play will run until the year becomes 2025
     market.game();
 
+    type_chars("It is now 2025, Let's go and see your results\n");
+    wait_for_enter();
+
     market.result();
 }
 
@@ -135,13 +138,13 @@ int main(){
 
 
     // Explains what the purpose of this program is for
-    intro(name); 
+    // intro(name); 
 
     // Gives the user a story and objective
-    story(name);
+    // story(name);
 
     // instructions if the player wishes to see them
-    intructions();
+    // intructions();
 
     //actually gameplay of the program
     gameplay(name);

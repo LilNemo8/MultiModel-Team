@@ -55,8 +55,20 @@ void manager::buy_stock(){
         for(int i = 1 ; i < specified_stock; i++){ it++; }
 
         stock_quantity:
-        type_chars("\nHow many "+ it->first +" share(s) would you like to buy?");
-        std::cout << "Quantity: "; std::cin >> quantity;
+        double amount;
+        // type_chars("\nHow many "+ it->first +" share(s) would you like to buy?");
+        type_chars("How much would you like to invest? (Capital: $" + std::to_string(getCapitial()));
+        std::cout << "Amount: $"; std::cin >> amount;
+
+        quantity  = amount / it->second->share_price;
+        type_chars("With $" +std::to_string(amount)+ ", you are able to buy " + std::to_string(quantity) + " share(s)");
+
+
+
+
+
+        // std::cout << "Quantity: "; std::cin >> quantity;
+
         
         //CHECK FOR POSSIBLE DEBT ------------------------
         char c;
@@ -259,14 +271,96 @@ void manager::advance_year(bool& end_simulation){
 
 
     loading("Advancing " + std::to_string(year_s) + " Year(s)", 4, std::chrono::milliseconds(100));
-    clear_terminal();
+    // clear_terminal();
 
     list_attributes(true);
+
+
+    type_chars("Here are your yearly returns");
+
+    yearly_returns_all();
 
 
     if (year == 2025) end_simulation = true;
     else end_simulation = false;
 }
+
+void manager::yearly_returns_all(){
+    print_stocks("user");
+    for(auto& it : user_stocks){
+
+        std::string name = it.first;
+        stock* s = it.second;
+        
+        clear_terminal();
+        type_chars("Yearly returns for " + name + ":\n");
+        
+        // We have data from 2014–2024; show only years that have "finished".
+        int startYear = 2014;
+        int endYear = std::min(year - 1, 2024);  // last completed year
+        
+        if (endYear < startYear) {
+            std::cout << setColor("red");
+            type_chars("No historical returns yet. Advance one year first.\n");
+            std::cout << setColor("white");
+            
+            sleep(2);
+            clear_terminal();
+            return;
+        }
+        
+        // Find the max absolute return to scale the bars
+        double maxAbs = 0.0;
+        for (int y = startYear; y <= endYear; ++y) {
+            int idx = (y - stock::BASE_YEAR) + 1; // because of leading 0
+            if (idx < 0 || idx >= (int)s->yearly_returns.size()) continue;
+            double r = s->yearly_returns[idx];
+            double ar = (r < 0 ? -r : r);
+            if (ar > maxAbs) maxAbs = ar;
+        }
+        if (maxAbs == 0.0) maxAbs = 1.0; // avoid divide-by-zero
+        
+        const int maxBarWidth = 30;
+        
+        // Draw the graph
+        for (int y = startYear; y <= endYear; ++y) {
+            int idx = (y - stock::BASE_YEAR) + 1;
+            if (idx < 0 || idx >= (int)s->yearly_returns.size()) continue;
+            
+            double r = s->yearly_returns[idx];
+            double ar = (r < 0 ? -r : r);
+            int barLen = (int)((ar / maxAbs) * maxBarWidth + 0.5);
+            
+            std::string bar;
+            if (r > 0)      bar = std::string(barLen, '+');
+            else if (r < 0) bar = std::string(barLen, '-');
+            else            bar = "";
+            
+            // Example: 2018   -9.31%  -------|
+            if(r < 0){ std::cout << setColor("red"); }
+            else{ std::cout << setColor("green"); }
+            
+            std::cout << y << "  ";
+            std::cout << std::fixed << std::setprecision(2) << std::setw(7) << r << "%  ";
+            
+            if (r < 0) {
+                std::cout << bar << "|\n";   // negative to the left of the axis
+            } else {
+                std::cout << "|" << bar << '\n'; // positive to the right
+            }
+            std::cout << setColor("white");
+        }
+
+        std::cout << '\n'; 
+    }
+        
+    std::cout << setColor("green"); std::cout << "\n( '+' = positive return "; 
+    std::cout << setColor("white"); std::cout << '|'; 
+    std::cout << setColor("red");   std::cout <<  " '-' = negative return )\n\n";
+    std::cout << setColor("white");
+
+}
+
 
 void manager::yearly_returns(){
     clear_terminal();
@@ -302,15 +396,15 @@ void manager::yearly_returns(){
 
     // Move iterator to selected stock (1-based index)
     auto it = user_stocks.begin();
-    for (int i = 1; i < choice; ++i) {
-        ++it;
-    }
+    for (int i = 1; i < choice; ++i) { ++it; }
 
     stock* s = it->second;
     std::string name = it->first;
 
-    clear_terminal();
+    // clear_terminal();
+    std::cout << setColor("magenta");
     type_chars("Yearly returns for " + name + ":\n");
+    std::cout << setColor("white");
 
     // We have data from 2014–2024; show only years that have "finished".
     int startYear = 2014;
@@ -380,7 +474,6 @@ void manager::yearly_returns(){
 }
 
 void manager::list_attributes(bool display_extra){
-    // std::cout << '\n';
     if(display_extra){ 
         type_chars("Name: " + name); 
         type_chars("Year: ",  std::chrono::milliseconds(80), false); std::cout << getYear() << '\n';
