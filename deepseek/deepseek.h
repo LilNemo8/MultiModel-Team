@@ -6,7 +6,5 @@
 
 void deepseek();
 void deepseek_intro();
-void child_ds();
-
 
 #endif

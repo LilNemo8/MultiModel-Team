@@ -17,17 +17,17 @@ void type_chars(const std::string& text, std::chrono::milliseconds per_char, boo
 
 
 // This is the 'loading' that happens when choosing a specific application (CHAT WROTE THIS)
-void loading(const std::string& msg, int time) {
+void loading(const std::string& msg, int time, std::chrono::milliseconds speed) {
     const int maxDots = 3;
     int d = 1; // show 1,2,3 dots, then reset to none (0), repeat
-    int x  = time;
+    int x  = time * 5;
     while (x!=0) {
-        std::cout << "\r " << msg
+        std::cout << "\r" << msg
         << std::string(d, '.')
         << std::string(maxDots - d, ' ')   // overwrite old dots
         << std::flush;
         
-        sleep(1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(speed));
         d = (d + 1) % (maxDots + 1); // cycles: 1→2→3→0→1→...
         x--;
     }
@@ -78,7 +78,7 @@ std::string setColor(std::string color) {
 }
 
 
-void image(std::string file_name){
+void image(std::string file_name, int display_time){
 
     pid_t pid = fork();
 
@@ -103,7 +103,13 @@ void image(std::string file_name){
         _exit(1); // only reached if execlp fails
     } else {
         // PARENT
-        sleep(2);
+        sleep(display_time);
         kill(pid, SIGTERM);
     }
+}
+
+void wait_for_enter() {
+    // std::cout << "Press ENTER to continue...";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get(); // waits for ENTER
 }

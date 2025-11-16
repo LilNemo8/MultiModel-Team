@@ -2,7 +2,6 @@
 #define STOCK_H
 
 #include "../helper/functions.h"
-#include <vector>   // NEW: for std::vector
 
 struct stock{
     std::string name;
