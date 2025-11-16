@@ -57,17 +57,13 @@ void manager::buy_stock(){
         stock_quantity:
         double amount;
         // type_chars("\nHow many "+ it->first +" share(s) would you like to buy?");
-        type_chars("How much would you like to invest? (Capital: $" + std::to_string(getCapitial()));
+        std::cout << std::fixed << std::setprecision(2);
+        type_chars("\nHow much would you like to invest into " + it->first + "? (Capital: $", std::chrono::milliseconds(60), false); std::cout <<getCapitial() << ")\n"; 
         std::cout << "Amount: $"; std::cin >> amount;
 
         quantity  = amount / it->second->share_price;
-        type_chars("With $" +std::to_string(amount)+ ", you are able to buy " + std::to_string(quantity) + " share(s)");
+        std::cout << "\nWith $" << amount << ", you are able to buy " << quantity << " share(s)\n"; sleep(1);
 
-
-
-
-
-        // std::cout << "Quantity: "; std::cin >> quantity;
 
         
         //CHECK FOR POSSIBLE DEBT ------------------------
@@ -96,7 +92,7 @@ void manager::buy_stock(){
         user_stocks[it->first]->stock_count += quantity;
 
         // Prints out the purchase the user just made
-        std::string purchase_str = "\nYou've bought " + std::to_string(quantity) + " stocks of " + it->first +'\n'; 
+        std::string purchase_str = "\nYou've bought " + std::to_string(quantity) + " share(s) of " + it->first +'\n'; 
         std::cout << setColor("green"); type_chars(purchase_str); std::cout << setColor("white");
 
         // Updates Capital and Stock Capitial
@@ -108,7 +104,7 @@ void manager::buy_stock(){
         // -------------------------------------------------------------------------------------------------------
         // Ask the User if they would like to buy another stock
         std::cout << "Would you like to buy more stocks? [y/n] "; std::cin >> c;
-        if(c == 'n' || c == 'N'){ break; }
+        if(c == 'n' || c == 'N'){ return; }
         clear_terminal();
     }
 
@@ -292,7 +288,6 @@ void manager::yearly_returns_all(){
         std::string name = it.first;
         stock* s = it.second;
         
-        clear_terminal();
         type_chars("Yearly returns for " + name + ":\n");
         
         // We have data from 2014–2024; show only years that have "finished".
@@ -360,7 +355,6 @@ void manager::yearly_returns_all(){
     std::cout << setColor("white");
 
 }
-
 
 void manager::yearly_returns(){
     clear_terminal();
@@ -640,9 +634,9 @@ void manager::result(){
 
         // Summary by type
         std::cout << std::fixed << std::setprecision(2);
-        type_chars("Total in Index Funds:      $", std::chrono::milliseconds(20), false);
+        type_chars("Total in Index Funds:       $", std::chrono::milliseconds(20), false);
         std::cout << indexTotal << '\n';
-        type_chars("Total in Individual Stocks:$", std::chrono::milliseconds(20), false);
+        type_chars("Total in Individual Stocks: $", std::chrono::milliseconds(20), false);
         std::cout << indivTotal << "\n\n";
 
         // Simple teaching message
