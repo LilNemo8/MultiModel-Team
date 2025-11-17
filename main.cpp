@@ -121,6 +121,7 @@ void gameplay(const std::string& name){
     type_chars("It is now 2025, Let's go and see your results\n"); sleep(2);
 
     market.result();
+    wait_for_enter();
 }
 
 

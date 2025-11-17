@@ -42,7 +42,7 @@ void manager::buy_stock(){
         type_chars("Which Stock would you like to buy? (enter 0 to leave)");
         std::cout << "Stock: #"; std::cin >> specified_stock;
         if(specified_stock == 0){ // stop buying if user wishes to 
-            return; 
+            clear_terminal(); return; 
         }else if(0 > specified_stock || (int)stocks.size() < specified_stock){ // makesure selection is within a certain range
             std::cout << setColor("red"); std::cout << "Invalid pick. Please try again\n"; std::cout << setColor("white"); 
             goto stock_selection;
