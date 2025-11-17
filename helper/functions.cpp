@@ -16,7 +16,7 @@ void type_chars(const std::string& text, std::chrono::milliseconds per_char, boo
 }
 
 
-// This is the 'loading' that happens when choosing a specific application (CHAT WROTE THIS)
+// This is the 'loading' that happens when choosing a specific application 
 void loading(const std::string& msg, int time, std::chrono::milliseconds speed) {
     const int maxDots = 3;
     int d = 1; // show 1,2,3 dots, then reset to none (0), repeat

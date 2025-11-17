@@ -131,7 +131,6 @@ int main(){
     std::string name;
     std::cout << "Name: "; std::getline(std::cin, name);
 
-
     // Explains what the purpose of this program is for
     intro(name); 
 
@@ -144,8 +143,8 @@ int main(){
     //actually gameplay of the program
     gameplay(name);
 
-
-    std::cout << "Thank you for playing :D\n";
+    loading("TERMINATING SIMULATION", 4, std::chrono::milliseconds(80));
+    std::cout << "\n";
     return 0;
     
 }

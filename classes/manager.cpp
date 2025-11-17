@@ -99,7 +99,7 @@ void manager::buy_stock(){
         updateCapital(-stocks[it->first]->share_price * quantity);
         updateStockCapitial(stocks[it->first]->share_price * quantity);
 
-        list_attributes(false);
+        list_attributes(false); sleep(1);
 
         // -------------------------------------------------------------------------------------------------------
         // Ask the User if they would like to buy another stock
@@ -126,11 +126,6 @@ void manager::sell_stock(){
     int quantity;
 
     while (true) {
-
-        // List all stocks
-        // print_stocks("all");  sleep(1);
-
-        // List user stocks
         print_stocks("user"); sleep(1);
 
     stock_selection:
@@ -174,7 +169,7 @@ void manager::sell_stock(){
         // since quantity and stock_count are equal remove stock
         } else if (stk->stock_count == quantity) {
             std::cout << setColor("red");
-            std::cout << "\nSelling all " << symbol << " stocks\n"; 
+            std::cout << "\nSelling all " << symbol << " share(s)\n"; 
             stk->stock_count = 0;
             user_stocks.erase(symbol);
 
@@ -183,7 +178,7 @@ void manager::sell_stock(){
             stk->stock_count -= quantity;
         }
 
-        std::string purchase = "\nYou've sold " + std::to_string(quantity) + " stocks of " + it->first +'\n'; 
+        std::string purchase = "\nYou've sold " + std::to_string(quantity) + " share(s) of " + it->first +'\n'; 
         std::cout << setColor("red"); type_chars(purchase); std::cout << setColor("white");
 
 
@@ -194,7 +189,7 @@ void manager::sell_stock(){
         list_attributes(false);
 
         char c;
-        std::cout << "Would you like to sell more stocks? [y/n] ";
+        std::cout << "Would you like to sell more share(s)? [y/n] ";
         std::cin >> c;
         if (c == 'n' || c == 'N') { break; }
     }
@@ -267,7 +262,6 @@ void manager::advance_year(bool& end_simulation){
 
 
     loading("Advancing " + std::to_string(year_s) + " Year(s)", 4, std::chrono::milliseconds(100));
-    // clear_terminal();
 
     list_attributes(true);
 
@@ -282,13 +276,17 @@ void manager::advance_year(bool& end_simulation){
 }
 
 void manager::yearly_returns_all(){
+
     print_stocks("user");
+
+    if(user_stocks.empty()){ sleep(1); clear_terminal(); return; }
+
     for(auto& it : user_stocks){
 
         std::string name = it.first;
         stock* s = it.second;
-        
-        type_chars("Yearly returns for " + name + ":\n");
+        sleep(1);
+        type_chars("Yearly returns for " + name + ":\n", std::chrono::milliseconds(10)); 
         
         // We have data from 2014–2024; show only years that have "finished".
         int startYear = 2014;
@@ -483,14 +481,12 @@ void manager::list_attributes(bool display_extra){
 
 void manager::manager_stocks(){
     clear_terminal();
-    int input;
-    type_chars("3. Manage My Stocks\n\n"); 
-
-    // type_chars("Here are your stocks:");
-    print_stocks("user"); std::cout << '\n';
-
-
     
+    type_chars("3. Manage My Stocks\n\n"); 
+    print_stocks("user"); std::cout << '\n';
+    
+    
+    int input;
     while(true){
         std::cout << "--- Options ---\n\n"; sleep(1);
         type_chars("1. Buy Stocks", std::chrono::milliseconds(10));
@@ -522,7 +518,6 @@ void manager::manager_stocks(){
 };
 
 void manager::game(){
-    // clear_terminal();
     int input;
     bool end_simulation;
 
@@ -668,7 +663,6 @@ void manager::updateCapital(double amount){ capital += amount; }
 
 double manager::getStockCapital(){ return stock_capital; }
 void manager::updateStockCapitial(double amount){ stock_capital += amount;}
-
 
 
 int manager::getObjective(){ return objective; }
