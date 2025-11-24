@@ -102,9 +102,8 @@ void manager::buy_stock(){
         list_attributes(false); sleep(1);
 
         // -------------------------------------------------------------------------------------------------------
-        // Ask the User if they would like to buy another stock
-        // std::cout << "Would you like to buy more stocks? [y/n] "; std::cin >> c;
-        // if(c == 'n' || c == 'N'){ return; }
+
+        wait_for_enter();
         clear_terminal();
     }
 
@@ -188,10 +187,7 @@ void manager::sell_stock(){
 
         list_attributes(false);
 
-        char c;
-        std::cout << "Would you like to sell more share(s)? [y/n] ";
-        std::cin >> c;
-        if (c == 'n' || c == 'N') { break; }
+        wait_for_enter();
     }
 
     clear_terminal();

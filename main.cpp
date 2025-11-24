@@ -2,9 +2,24 @@
 #include "classes/manager.h"
 #include "deepseek/deepseek.h"
 
-    
+bool begin_sim(){
+    char input;
+    while(true){
+        std::cout << "Would you like to go straight to the simulation? [Y/n]: "; std::cin >> input;
+        if(input == 'y' || input == 'Y' || input == 'N' || input == 'n'){ break; }
+    }
+
+
+    if(input == 'Y' || input == 'y'){ return true;}
+    return false;
+
+}    
+
 void intro(std::string& name){
     clear_terminal();
+
+
+
     char input;
     
     std::cout << "--------------------------------------------------\n";
@@ -40,9 +55,13 @@ void story(const std::string& name){
 
 void intructions(){
     char c;
-    std::cout << "\nWould you like to know how the simulation works? [Y/n] "; std::cin >> c;
-
+    while(true){
+        std::cout << "\nWould you like to know how the simulation works? [Y/n] "; std::cin >> c;
+        if(c == 'y' || c == 'Y' || c == 'N' || c == 'n'){ break; }
+    }
+    
     if(c == 'n' || c =='N'){ return; }
+
 
     clear_terminal();
 
@@ -67,13 +86,14 @@ void intructions(){
     type_chars("   3. Manage My stocks  (Allows you to edit and view your stocks)", std::chrono::milliseconds(5));
     type_chars("   4. My Attributes (List all attributes as shown above)", std::chrono::milliseconds(5));
     type_chars("   5. Talk to a 'finacial advisor' (Allows you to talk to an AI)", std::chrono::milliseconds(5));
-    type_chars("   6. Advance Year(s) (Advances a specific amount of years in order to similate the stock market)\n", std::chrono::milliseconds(5), true);
+    type_chars("   6. Advance Year(s) (Advances a specific amount of years in order to similate the stock market)", std::chrono::milliseconds(5), true);
     wait_for_enter();
 
     
-    type_chars("Now you can clearly see that each option has a description but the following need more elaberation");
+    type_chars("\nNow you can clearly see that each option has a description but the following need more elaberation");
     type_chars("\n   3. Manage My stocks", std::chrono::milliseconds(10));
-    type_chars("   6. Advance Year(s)", std::chrono::milliseconds(10)); sleep(2);
+    type_chars("   6. Advance Year(s)", std::chrono::milliseconds(10)); 
+    wait_for_enter();
 
     type_chars("\nOption 3 will display a new menu which allows you to view and edit stocks");
     
@@ -81,17 +101,17 @@ void intructions(){
     type_chars("   1. Buy Stocks", std::chrono::milliseconds(10));
     type_chars("   2. Sell Stocks", std::chrono::milliseconds(10));
     type_chars("   3. Yearly Return(s) (allows you to see how your stocks have been doing after advancing year(s))", std::chrono::milliseconds(10));
-    type_chars("   4. Main Menu\n", std::chrono::milliseconds(10), true); 
+    type_chars("   4. Main Menu", std::chrono::milliseconds(10), true); 
     wait_for_enter();
 
 
-    type_chars("Option 6 will allow you to advance into the future in order to simulation reality.");
+    type_chars("\nOption 6 will allow you to advance into the future in order to simulation reality.");
     type_chars("Advancements will be in incremnets of year(s).");
-    type_chars("The simulation will begin in 2014 and end in 2025\n");
+    type_chars("The simulation will begin in 2014 and end in 2025");
     wait_for_enter();
 
 
-    type_chars("Once the year is 2025, the simulation will give you your results and check to see if you completeled the objective.\n");
+    type_chars("\nOnce the year is 2025, the simulation will give you your results and check to see if you completeled the objective.\n");
     std::cout << setColor("green"); 
     type_chars("If objective is completeled, then you have become finacially literate"); image("celebration.gif", 2);
     std::cout << setColor("red"); 
@@ -132,14 +152,16 @@ int main(){
     std::string name;
     std::cout << "Name: "; std::getline(std::cin, name);
 
-    // Explains what the purpose of this program is for
-    intro(name); 
-
-    // Gives the user a story and objective
-    story(name);
-
-    // instructions if the player wishes to see them
-    intructions();
+    if(!begin_sim()){
+        // Explains what the purpose of this program is for
+        intro(name); 
+        
+        // Gives the user a story and objective
+        story(name);
+        
+        // instructions if the player wishes to see them
+        intructions();
+    };
 
     //actually gameplay of the program
     gameplay(name);

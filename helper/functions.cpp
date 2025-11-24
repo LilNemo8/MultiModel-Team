@@ -110,7 +110,7 @@ void image(std::string file_name, int display_time){
 }
 
 void wait_for_enter() {
-    // std::cout << "Press ENTER to continue...";
+    std::cout << "Press ENTER to continue...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::cin.get(); // waits for ENTER
 }
